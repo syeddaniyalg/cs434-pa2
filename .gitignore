@@ -1,0 +1,11 @@
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+data/
+checkpoints/
+artifacts/logs/
+artifacts/metrics/*.npz
+artifacts/metrics/*.pt
+*.pyc
+*.pth
+*.pt
