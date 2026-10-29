@@ -1,6 +1,7 @@
 import argparse
 import csv
 import json
+import math
 from pathlib import Path
 
 import numpy as np
@@ -24,7 +25,10 @@ def three_significant(value, scientific_zero=False):
         return "0.00e+00" if scientific_zero else "0"
     if abs(value) < 1e-3:
         return f"{value:.2e}"
-    return f"{value:.3g}"
+    decimals = 2 - math.floor(math.log10(abs(value)))
+    if decimals > 0:
+        return f"{value:.{decimals}f}"
+    return f"{value:.0f}"
 
 
 def seed_entry(records, key, scientific_zero=False):
@@ -99,6 +103,14 @@ def generate(args):
             "E2_3x": seed_entry(a, "E2_3x"),
             "E5_1x": seed_entry(a, "E5"),
             "E5_2x": seed_entry(a, "E5_2x"),
+        },
+        {
+            "Model": "Blank",
+            "E2_1x": three_significant(baselines["Blank"]["E2_1x"]),
+            "E2_2x": three_significant(baselines["Blank"]["E2_2x"]),
+            "E2_3x": three_significant(baselines["Blank"]["E2_3x"]),
+            "E5_1x": three_significant(baselines["Blank"]["E5"]),
+            "E5_2x": three_significant(baselines["Blank"]["E5_2x"]),
         },
         {
             "Model": "Copy-last",

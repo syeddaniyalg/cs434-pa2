@@ -15,7 +15,7 @@
   "E2_2x": 0.028813138604164124,
   "E5_2x": 0.03151731193065643,
   "E2_3x": 0.03103523701429367,
-  "inference_seconds": 5.830556884999623,
+  "inference_seconds": 2.4883187000032194,
   "model": "sym_D",
   "base_model": "D",
   "seed": 1,
@@ -23,5 +23,17 @@
   "reach": 16,
   "training_seconds_per_epoch": 9.744360842233354,
   "hardware": "Tesla T4",
-  "amp_training": true
+  "amp_training": true,
+  "inference_timing": {
+    "statistic": "median",
+    "repeats": [
+      2.478093400002763,
+      2.4670136999984607,
+      2.491850800004613,
+      2.4883187000032194,
+      2.536289599997872
+    ],
+    "warmup_batches": 3,
+    "sequential": true
+  }
 }

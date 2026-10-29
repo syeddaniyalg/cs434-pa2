@@ -39,13 +39,15 @@ def plot_flow(directions, speeds, figure_dir):
     speed_counts, _ = np.histogram(speeds, bins=speed_edges)
     speed_fraction = speed_counts / speed_counts.sum()
     median_speed = float(np.median(speeds))
+    speed_p90 = float(np.quantile(speeds, 0.90))
+    speed_p99 = float(np.quantile(speeds, 0.99))
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.5))
     axes[0].bar(direction_edges[:-1], direction_fraction, width=20, align="edge", edgecolor="black")
     axes[0].axhline(1 / 18, color="crimson", linestyle="--", label="Uniform: 1/18")
     axes[0].set(xlabel="Direction (degrees)", ylabel="Fraction of kept pixels", title="(a) Flow direction", xticks=np.arange(0, 361, 60))
     axes[0].legend()
     axes[1].bar(speed_edges[:-1], speed_fraction, width=np.diff(speed_edges), align="edge", edgecolor="black")
-    axes[1].axvline(median_speed, color="crimson", linestyle="--", label=f"Median: {median_speed:.3f}")
+    axes[1].axvline(median_speed, color="crimson", linestyle="--", label=f"Median: {median_speed:.3g}")
     axes[1].set(xlabel="Speed (pixels per frame)", ylabel="Fraction of kept pixels", title="(b) Flow speed")
     axes[1].legend()
     fig.suptitle(f"Farneback flow over 950 frame pairs | kept pixels: {len(speeds):,}")
@@ -57,6 +59,11 @@ def plot_flow(directions, speeds, figure_dir):
     return {
         "kept_pixels": int(len(speeds)),
         "median_speed": median_speed,
+        "speed_p90": speed_p90,
+        "speed_p99": speed_p99,
+        "fraction_2x_above_8": float(np.mean(2 * speeds > 8)),
+        "fraction_3x_above_8": float(np.mean(3 * speeds > 8)),
+        "fraction_3x_above_16": float(np.mean(3 * speeds > 16)),
         "direction_edges": direction_edges.tolist(),
         "direction_fraction": direction_fraction.tolist(),
         "speed_edges": speed_edges.tolist(),

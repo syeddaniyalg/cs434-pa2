@@ -1,5 +1,6 @@
 import argparse
 import json
+import statistics
 import sys
 import time
 from pathlib import Path
@@ -144,6 +145,52 @@ def evaluate_predictor(predictor, loaders, device, name, timed=True):
     return summary, per_video
 
 
+def benchmark_predictor(predictor, loader, device, name, warmup_batches, repeats):
+    predictor.eval()
+    with torch.inference_mode():
+        progress = tqdm(loader, desc=f"{name} warm-up", dynamic_ncols=True, leave=True, file=sys.stdout)
+        for batch_index, batch in enumerate(progress):
+            inputs = batch["inputs"].to(device, non_blocking=True)
+            predictor(inputs)
+            if batch_index + 1 >= warmup_batches:
+                break
+        synchronize(device)
+        measurements = []
+        for repeat in range(repeats):
+            elapsed = 0.0
+            progress = tqdm(
+                loader,
+                desc=f"{name} timing {repeat + 1}/{repeats}",
+                dynamic_ncols=True,
+                leave=True,
+                file=sys.stdout,
+            )
+            for batch in progress:
+                inputs = batch["inputs"].to(device, non_blocking=True)
+                synchronize(device)
+                start = time.perf_counter()
+                predictor(inputs)
+                synchronize(device)
+                elapsed += time.perf_counter() - start
+            measurements.append(elapsed)
+    median = float(statistics.median(measurements))
+    print(f"[{name}] timing repeats={measurements} median={median:.6f}", flush=True)
+    return median, measurements
+
+
+def update_timing(artifact_dir, name, seed, median, measurements, warmup_batches):
+    path = Path(artifact_dir) / "metrics" / f"{name}_seed_{seed}.json"
+    record = json.loads(path.read_text(encoding="utf-8"))
+    record["inference_seconds"] = median
+    record["inference_timing"] = {
+        "statistic": "median",
+        "repeats": measurements,
+        "warmup_batches": int(warmup_batches),
+        "sequential": True,
+    }
+    path.write_text(json.dumps(record, indent=2), encoding="utf-8")
+
+
 def load_trained(model_name, seed, checkpoint_dir, device):
     path = Path(checkpoint_dir) / f"model_{model_name}" / f"seed_{seed}" / "final.pt"
     if not path.exists():
@@ -204,6 +251,32 @@ def run(args):
         torch.backends.cudnn.benchmark = True
     splits = load_splits(args.data_dir, download=args.download)
     loaders = {speed: make_loader(splits["test"], speed, args.workers) for speed in (1, 2, 3)}
+    if args.timing_only:
+        for model_name in args.models:
+            predictor, _ = load_trained(model_name, args.seed, args.checkpoint_dir, device)
+            median, measurements = benchmark_predictor(
+                predictor,
+                loaders[1],
+                device,
+                f"{model_name} seed {args.seed}",
+                args.timing_warmup_batches,
+                args.timing_repeats,
+            )
+            update_timing(args.artifact_dir, model_name, args.seed, median, measurements, args.timing_warmup_batches)
+        for model_name in args.sym_models:
+            base, _ = load_trained(model_name, args.seed, args.checkpoint_dir, device)
+            predictor = SymmetrizedForecaster(base).to(device)
+            name = f"sym_{model_name}"
+            median, measurements = benchmark_predictor(
+                predictor,
+                loaders[1],
+                device,
+                f"{name} seed {args.seed}",
+                args.timing_warmup_batches,
+                args.timing_repeats,
+            )
+            update_timing(args.artifact_dir, name, args.seed, median, measurements, args.timing_warmup_batches)
+        return
     if args.baselines and args.seed == 0:
         evaluate_baselines(loaders, args, device)
     for model_name in args.models:
@@ -224,6 +297,9 @@ def parse_args():
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--download", action="store_true")
     parser.add_argument("--baselines", action=argparse.BooleanOptionalAction, default=True)
+    parser.add_argument("--timing-only", action="store_true")
+    parser.add_argument("--timing-warmup-batches", type=int, default=3)
+    parser.add_argument("--timing-repeats", type=int, default=5)
     args = parser.parse_args()
     args.models = [name.upper() for name in args.models]
     args.sym_models = [name.upper() for name in args.sym_models]

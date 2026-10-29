@@ -19,7 +19,7 @@
         "E2_2x": 0.04017720744013786,
         "E5_2x": 0.04384750500321388,
         "E2_3x": 0.04437076672911644,
-        "inference_seconds": 1.051713314999688,
+        "inference_seconds": 0.3281452999999601,
         "model": "A",
         "base_model": "A",
         "seed": 0,
@@ -27,7 +27,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 10.36538823293332,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.4037457999997969,
+            0.33478019999938624,
+            0.3281452999999601,
+            0.3228102000002764,
+            0.32438749999892025
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       },
       {
         "MSE_h": [
@@ -46,7 +58,7 @@
         "E2_2x": 0.04162115231156349,
         "E5_2x": 0.047650668770074844,
         "E2_3x": 0.047512948513031006,
-        "inference_seconds": 1.4566545450001058,
+        "inference_seconds": 0.32665419999648293,
         "model": "A",
         "base_model": "A",
         "seed": 1,
@@ -54,7 +66,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 10.369898790466664,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.39522609999858105,
+            0.32665419999648293,
+            0.33411189999787894,
+            0.3249409999962154,
+            0.3238770999951157
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       }
     ],
     "B": [
@@ -75,7 +99,7 @@
         "E2_2x": 0.042962104082107544,
         "E5_2x": 0.047007109969854355,
         "E2_3x": 0.05025828257203102,
-        "inference_seconds": 1.1189610130006713,
+        "inference_seconds": 0.3227589000034641,
         "model": "B",
         "base_model": "B",
         "seed": 0,
@@ -83,7 +107,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 10.298477057300007,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.32291580000037357,
+            0.3229843000017354,
+            0.3227589000034641,
+            0.320103700002619,
+            0.3201548000006369
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       },
       {
         "MSE_h": [
@@ -102,7 +138,7 @@
         "E2_2x": 0.042665544897317886,
         "E5_2x": 0.04723457992076874,
         "E2_3x": 0.046987615525722504,
-        "inference_seconds": 1.1787723390004885,
+        "inference_seconds": 0.323316199999681,
         "model": "B",
         "base_model": "B",
         "seed": 1,
@@ -110,7 +146,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 10.40740974906667,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.32423629999902914,
+            0.32194670000171755,
+            0.323316199999681,
+            0.32961080000040965,
+            0.3224534000009953
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       }
     ],
     "C": [
@@ -131,7 +179,7 @@
         "E2_2x": 0.027712222188711166,
         "E5_2x": 0.03140919283032417,
         "E2_3x": 0.03289224952459335,
-        "inference_seconds": 0.5108731050002007,
+        "inference_seconds": 0.32761349999873346,
         "model": "C",
         "base_model": "C",
         "seed": 0,
@@ -139,7 +187,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 9.680759272700012,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.3221951999994417,
+            0.3244926999977906,
+            0.32761349999873346,
+            0.3320750999973825,
+            0.33315630000106466
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       },
       {
         "MSE_h": [
@@ -158,7 +218,7 @@
         "E2_2x": 0.02958805114030838,
         "E5_2x": 0.03324452042579651,
         "E2_3x": 0.03372412174940109,
-        "inference_seconds": 0.4497032689994285,
+        "inference_seconds": 0.33092630000010104,
         "model": "C",
         "base_model": "C",
         "seed": 1,
@@ -166,7 +226,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 9.698528175366672,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.32149800000206596,
+            0.3273034000021653,
+            0.3327508999991551,
+            0.3406924999999319,
+            0.33092630000010104
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       }
     ],
     "D": [
@@ -187,7 +259,7 @@
         "E2_2x": 0.02976195141673088,
         "E5_2x": 0.032749809324741364,
         "E2_3x": 0.032186977565288544,
-        "inference_seconds": 0.8442652009989615,
+        "inference_seconds": 0.33198280000124214,
         "model": "D",
         "base_model": "D",
         "seed": 0,
@@ -195,7 +267,19 @@
         "reach": 16,
         "training_seconds_per_epoch": 9.604545851666664,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.33198280000124214,
+            0.3263302000004842,
+            0.32653429999845685,
+            0.33748869999817543,
+            0.3469286999970791
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       },
       {
         "MSE_h": [
@@ -214,7 +298,7 @@
         "E2_2x": 0.02893509529531002,
         "E5_2x": 0.031802885234355927,
         "E2_3x": 0.03133876249194145,
-        "inference_seconds": 0.8363427359997786,
+        "inference_seconds": 0.3229875000033644,
         "model": "D",
         "base_model": "D",
         "seed": 1,
@@ -222,7 +306,19 @@
         "reach": 16,
         "training_seconds_per_epoch": 9.744360842233354,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            0.3279004000041823,
+            0.321070699997108,
+            0.3207648000034169,
+            0.3229875000033644,
+            0.3305652999988524
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       }
     ],
     "sym_B": [
@@ -243,7 +339,7 @@
         "E2_2x": 0.042276397347450256,
         "E5_2x": 0.045971956104040146,
         "E2_3x": 0.049607254564762115,
-        "inference_seconds": 3.601043829999753,
+        "inference_seconds": 2.4421701000010216,
         "model": "sym_B",
         "base_model": "B",
         "seed": 0,
@@ -251,7 +347,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 10.298477057300007,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            2.4447771999975885,
+            2.4289744000006976,
+            2.439976900000147,
+            2.4421701000010216,
+            2.4429404000011345
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       },
       {
         "MSE_h": [
@@ -270,7 +378,7 @@
         "E2_2x": 0.04157431796193123,
         "E5_2x": 0.04599732160568237,
         "E2_3x": 0.04557956010103226,
-        "inference_seconds": 3.572245856000791,
+        "inference_seconds": 2.444922799998494,
         "model": "sym_B",
         "base_model": "B",
         "seed": 1,
@@ -278,7 +386,19 @@
         "reach": 8,
         "training_seconds_per_epoch": 10.40740974906667,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            2.444922799998494,
+            2.444986800001061,
+            2.4333230000002004,
+            2.4456536000043343,
+            2.4375483999992866
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       }
     ],
     "sym_D": [
@@ -299,7 +419,7 @@
         "E2_2x": 0.029657399281859398,
         "E5_2x": 0.03252621367573738,
         "E2_3x": 0.03208022192120552,
-        "inference_seconds": 5.9902840990002915,
+        "inference_seconds": 2.4843322999968223,
         "model": "sym_D",
         "base_model": "D",
         "seed": 0,
@@ -307,7 +427,19 @@
         "reach": 16,
         "training_seconds_per_epoch": 9.604545851666664,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            2.485538599998108,
+            2.4839363000028243,
+            2.4810498000033476,
+            2.501649599998018,
+            2.4843322999968223
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       },
       {
         "MSE_h": [
@@ -326,7 +458,7 @@
         "E2_2x": 0.028813138604164124,
         "E5_2x": 0.03151731193065643,
         "E2_3x": 0.03103523701429367,
-        "inference_seconds": 5.830556884999623,
+        "inference_seconds": 2.4883187000032194,
         "model": "sym_D",
         "base_model": "D",
         "seed": 1,
@@ -334,7 +466,19 @@
         "reach": 16,
         "training_seconds_per_epoch": 9.744360842233354,
         "hardware": "Tesla T4",
-        "amp_training": true
+        "amp_training": true,
+        "inference_timing": {
+          "statistic": "median",
+          "repeats": [
+            2.478093400002763,
+            2.4670136999984607,
+            2.491850800004613,
+            2.4883187000032194,
+            2.536289599997872
+          ],
+          "warmup_batches": 3,
+          "sequential": true
+        }
       }
     ]
   }

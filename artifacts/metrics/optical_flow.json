@@ -1,6 +1,11 @@
 {
   "kept_pixels": 103050,
   "median_speed": 3.317502498626709,
+  "speed_p90": 4.123515272140503,
+  "speed_p99": 4.674063758850097,
+  "fraction_2x_above_8": 0.20262008733624454,
+  "fraction_3x_above_8": 0.8383406113537117,
+  "fraction_3x_above_16": 0.0022513343037360504,
   "direction_edges": [
     0,
     20,

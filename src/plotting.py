@@ -68,11 +68,19 @@ def select_figure2_ids(test_videos):
     raise RuntimeError("Could not select Figure 2 videos")
 
 
+def figure5_displayed_frames():
+    return tuple(sorted({
+        frame
+        for speed in (1, 2, 3)
+        for frame in (torch.arange(7) * speed).tolist()
+    }))
+
+
 def select_figure5_id(test_videos):
-    displayed_targets = (5, 6, 10, 12, 15, 18)
+    displayed_frames = figure5_displayed_frames()
     for index in range(len(test_videos)):
         video, video_id = test_videos[index]
-        if not has_overlap(video, displayed_targets):
+        if not has_overlap(video, displayed_frames):
             return video_id
     raise RuntimeError("Could not select a non-overlapping Figure 5 video")
 
@@ -275,9 +283,10 @@ def baseline_stage(args, test_videos, figure_dir, gif_dir, metric_dir, device):
         "figure_3_mirror": mirror_ids,
         "figure_3_rotation": rotation_ids,
         "figure_5": figure5_id,
+        "figure_5_displayed_true_frame_indices": list(figure5_displayed_frames()),
         "figure_5_displayed_true_component_counts": [
             component_count(video_by_id(test_videos, figure5_id)[index])
-            for index in (5, 6, 10, 12, 15, 18)
+            for index in figure5_displayed_frames()
         ],
     }
     (metric_dir / "selected_cases.json").write_text(json.dumps(selected, indent=2), encoding="utf-8")
@@ -311,6 +320,34 @@ def final_stage(args, test_videos, figure_dir, gif_dir, metric_dir, device):
     torch.save({"transformation_cases": cases, "speed_case": records}, metric_dir / "figure_6_cases.pt")
 
 
+def speed_stage(args, test_videos, figure_dir, metric_dir, device):
+    selected_path = metric_dir / "selected_cases.json"
+    selected = json.loads(selected_path.read_text(encoding="utf-8"))
+    video_id = select_figure5_id(test_videos)
+    displayed_frames = figure5_displayed_frames()
+    video = video_by_id(test_videos, video_id)
+    selected["figure_5"] = video_id
+    selected["figure_5_displayed_true_frame_indices"] = list(displayed_frames)
+    selected["figure_5_displayed_true_component_counts"] = [
+        component_count(video[index]) for index in displayed_frames
+    ]
+    selected_path.write_text(json.dumps(selected, indent=2), encoding="utf-8")
+
+    model_a = load_model("A", 0, args.checkpoint_dir, device)
+    model_a_records = speed_case(model_a, video, device)
+    save_figure(draw_speed_figure(model_a_records, video_id, 5, "seed-0 model A"), figure_dir, "figure_5")
+    torch.save(model_a_records, metric_dir / "figure_5_case.pt")
+
+    final_model = load_model(args.final_base, 0, args.checkpoint_dir, device, symmetrized=True)
+    final_records = speed_case(final_model, video, device)
+    final_figure = draw_speed_figure(final_records, video_id, 6, f"final symmetrized {args.final_base}")
+    save_figure(final_figure, figure_dir, "figure_6b")
+    figure_6_path = metric_dir / "figure_6_cases.pt"
+    figure_6_cases = torch.load(figure_6_path, map_location="cpu", weights_only=False)
+    figure_6_cases["speed_case"] = final_records
+    torch.save(figure_6_cases, figure_6_path)
+
+
 def run(args):
     device = torch.device(args.device)
     if device.type == "cuda":
@@ -325,11 +362,13 @@ def run(args):
         baseline_stage(args, splits["test"], figure_dir, gif_dir, metric_dir, device)
     if args.stage in {"final", "all"}:
         final_stage(args, splits["test"], figure_dir, gif_dir, metric_dir, device)
+    if args.stage == "speed":
+        speed_stage(args, splits["test"], figure_dir, metric_dir, device)
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=("baseline", "final", "all"), required=True)
+    parser.add_argument("--stage", choices=("baseline", "final", "speed", "all"), required=True)
     parser.add_argument("--data-dir", type=Path, default=Path("data"))
     parser.add_argument("--checkpoint-dir", type=Path, default=Path("checkpoints"))
     parser.add_argument("--artifact-dir", type=Path, default=Path("artifacts"))

@@ -13,13 +13,35 @@
     9051,
     9800
   ],
-  "figure_5": 9017,
+  "figure_5": 9021,
   "figure_5_displayed_true_component_counts": [
     2,
     2,
     2,
     2,
     2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
     2
+  ],
+  "figure_5_displayed_true_frame_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    12,
+    15,
+    18
   ]
 }
