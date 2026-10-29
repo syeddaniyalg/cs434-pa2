@@ -1,0 +1,25 @@
+{
+  "figure_2": [
+    9000,
+    9007,
+    9012
+  ],
+  "figure_2_overlap_video": 9000,
+  "figure_3_mirror": [
+    9625,
+    9970
+  ],
+  "figure_3_rotation": [
+    9051,
+    9800
+  ],
+  "figure_5": 9017,
+  "figure_5_displayed_true_component_counts": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ]
+}
